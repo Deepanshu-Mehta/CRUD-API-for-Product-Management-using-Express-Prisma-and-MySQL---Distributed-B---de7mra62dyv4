@@ -14,28 +14,28 @@ const {prisma} = require('../db/config')
 //     }
 // }
 
-// const retriveProducts = async(req,res)=>{
-//     try{
-//         const allProducts = await prisma.Product.findMany();
-//         res.status(200).json(allProducts);
-//     }catch(err){
-//         return res.status(500).json({message : "Internal Server Error"});
-//     }
+const retriveProducts = async(req,res)=>{
+    try{
+        const allProducts = await prisma.Product.findMany();
+        res.status(200).json(allProducts);
+    }catch(err){
+        return res.status(500).json({message : "Internal Server Error"});
+    }
     
-// }
+}
 
-// const retrivebyId= async (req,res)=>{
-//     try{
-//         const {id} = req.params;
-//         const product = await prisma.Product.findUnique({where : {id : parseInt(id)}});
-//         if(!product){
-//             return res.status(404).json({error : "Product not found"});
-//         }
-//         res.status(200).json(product);
-//     }catch(err){
-//         return res.status(500).json({message : "Internal Server Error"});
-//     }
-// }
+const retrivebyId= async (req,res)=>{
+    try{
+        const {id} = req.params;
+        const product = await prisma.Product.findUnique({where : {id : parseInt(id)}});
+        if(!product){
+            return res.status(404).json({error : "Product not found"});
+        }
+        res.status(200).json(product);
+    }catch(err){
+        return res.status(500).json({message : "Internal Server Error"});
+    }
+}
 
 // const updateProduct = async (req,res)=>{
 //     try{
