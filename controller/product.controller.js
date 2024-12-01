@@ -8,7 +8,7 @@ const createProduct = async (req,res)=>{
         const product = await prisma.Product.create({
             data : {name,stock : parseInt(stock),price : Number(price)}
         });
-        res.status(201).json();
+        res.status(201).json(product);
     }catch(err){
         return res.status(500).json({message : "Internal Server Error"});
     }
@@ -47,7 +47,7 @@ const updateProduct = async (req,res)=>{
     }
     const updatedProduct = await prisma.Product.update({
         where : {id : parseInt(id)},
-        data : {name,stock : parseInt(stock),price : Number(price);}
+        data : {name,stock : parseInt(stock),price : Number(price)}
     })
     res.status(200).json(updatedProduct);
     }catch(err){
@@ -62,7 +62,14 @@ const partialUpdate = async(req,res)=>{
     if(!product){
         return res.status(404).json({error : "Product not found"});
     }
-    const updatedProduct = await prisma.Product.update({where : {id : parseInt(id)}, data : req.body});
+    const updateData = {...req.body};
+    if (updateData.stock) updateData.stock = parseInt(updateData.stock);
+    if (updateData.price) updateData.price = Number(updateData.price);
+
+    const updatedProduct = await prisma.Product.update({
+        where : {id : parseInt(id)}, 
+        data : updateData
+    });
     res.status(200).json(updatedProduct);
     }catch(err){
         return res.status(500).json({message : "Internal Server Error"});
