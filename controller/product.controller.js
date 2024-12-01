@@ -6,9 +6,9 @@ const createProduct = async (req,res)=>{
             return res.status(400).json({error: "All fields required"})
         }
         const product = await prisma.Product.create({
-            data : {name,stock :  parseInt(stock),price : parseFloat(price)}
+            data : {name, stock, price}
         });
-        res.status(201).json (product.name, parseInt(product.stock), parseFloat(product.price));
+        res.status(201).json(product);
     }catch(err){
         return res.status(500).json({message : "Internal Server Error"});
     }
@@ -31,7 +31,7 @@ const retrivebyId= async (req,res)=>{
         if(!product){
             return res.status(404).json({error : "Product not found"});
         }
-        res.status(200).json(product.name, parseInt(product.stock), parseFloat(product.price));
+        res.status(200).json(product);
     }catch(err){
         return res.status(500).json({message : "Internal Server Error"});
     }
@@ -47,7 +47,7 @@ const updateProduct = async (req,res)=>{
         where : {id : parseInt(id)},
         data : req.body
     })
-    res.status(200).json(updatedProduct.name, parseInt(updatedProduct.stock), parseFloat(updatedProduct.price));
+    res.status(200).json(updatedProduct);
 }
 
 const partialUpdate = async(req,res)=>{
@@ -58,7 +58,7 @@ const partialUpdate = async(req,res)=>{
         return res.status(404).json({error : "Product not found"});
     }
     const updatedProduct = await prisma.Product.update({where : {id : parseInt(id)}, data : req.body});
-    res.status(200).json(updatedProduct.name, parseInt(updatedProduct.stock), parseFloat(updatedProduct.price));
+    res.status(200).json(updatedProduct);
     }catch(err){
         return res.status(500).json({message : "Internal Server Error"});
     }
