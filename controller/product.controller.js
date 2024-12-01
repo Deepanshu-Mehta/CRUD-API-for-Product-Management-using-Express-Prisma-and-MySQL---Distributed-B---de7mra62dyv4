@@ -6,9 +6,9 @@ const createProduct = async (req,res)=>{
             return res.status(400).json({error: "All fields required"})
         }
         const product = await prisma.Product.create({
-            data : {name, stock, price}
+            data : {name,stock :  parseInt(stock),price : parseFloat(price)}
         });
-        res.status(201).json(product);
+        res.status(201).json (product.name, product.parseInt(stock), product.parseFloat(price));
     }catch(err){
         return res.status(500).json({message : "Internal Server Error"});
     }
@@ -16,7 +16,7 @@ const createProduct = async (req,res)=>{
 
 const retriveProducts = async(req,res)=>{
     try{
-        const allProducts = await prisma.Product.find();
+        const allProducts = await prisma.Product.findMany();
         res.status(200).json(allProducts);
     }catch(err){
         return res.status(500).json({message : "Internal Server Error"});
